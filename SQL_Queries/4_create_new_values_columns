@@ -1,0 +1,38 @@
+-- Adding new columns to the new combined table and updating those columns with calculated values.
+DROP TABLE IF EXISTS combined_bike_data;
+CREATE TABLE combined_bike_data AS WITH full_table AS (
+    SELECT *
+    FROM bike_share_year_0
+    UNION ALL
+    SELECT *
+    FROM bike_share_year_1
+)
+SELECT ft.date,
+    ft.season,
+    ft.year,
+    ft.month,
+    ft.hour,
+    ft.holiday,
+    ft.weekday,
+    ft.working_day,
+    ft.weathersit,
+    ft.temp,
+    ft.atemp,
+    ft.hum,
+    ft.windspeed,
+    ft.rider_type,
+    ft.riders,
+    ct.price,
+    ct.COGS
+FROM full_table AS ft
+    LEFT JOIN cost_table AS ct ON ft.year = ct.year;
+-- Add the revenue and profit columns to the existing combined_bike_data table
+ALTER TABLE combined_bike_data
+ADD COLUMN revenue DECIMAL,
+    ADD COLUMN profit DECIMAL;
+-- Update the revenue and profit columns with the calculated values
+UPDATE combined_bike_data
+SET revenue = riders * price,
+    profit = (riders * price) - COGS;
+SELECT *
+FROM combined_bike_data;
