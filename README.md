@@ -116,6 +116,7 @@ Profit Margin = (SUM('public combined_bike_data'[revenue])-SUM('public combined_
 - A heatmap was created to illustrate revenue patterns by hour and day of the week.
 - Bar charts were used to show revenue by season.
 - A donut chart was used to show rider demographics.
+- Slicer button was created to filter between the two years.
 
 
 ## Dashboard View  
